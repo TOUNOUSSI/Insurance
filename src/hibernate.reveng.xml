@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.org/dtd/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+  <table-filter match-catalog="assurance" match-name="assureur"/>
+  <table-filter match-catalog="assurance" match-name="attestation"/>
+  <table-filter match-catalog="assurance" match-name="client"/>
+  <table-filter match-catalog="assurance" match-name="contrat"/>
+  <table-filter match-catalog="assurance" match-name="garantie"/>
+  <table-filter match-catalog="assurance" match-name="garantie_vehicule"/>
+  <table-filter match-catalog="assurance" match-name="marque"/>
+  <table-filter match-catalog="assurance" match-name="pack"/>
+  <table-filter match-catalog="assurance" match-name="personne"/>
+  <table-filter match-catalog="assurance" match-name="piece"/>
+  <table-filter match-catalog="assurance" match-name="reglement"/>
+  <table-filter match-catalog="assurance" match-name="sinistre"/>
+  <table-filter match-catalog="assurance" match-name="societe"/>
+  <table-filter match-catalog="assurance" match-name="usag"/>
+  <table-filter match-catalog="assurance" match-name="vehicule"/>
+</hibernate-reverse-engineering>

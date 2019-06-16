@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body>
+  <h:link value="Afficher les utilisateurs" outcome="index2"></h:link><br></br>
+ <h:link value="Ajouter une voiture" outcome="voitureajouter"></h:link>
+ 
+ <br></br>
+                                <div class="col-md-12">
+									
+										<h:form>
+										<p:dataTable cellspacing="0" width="100%" class="table table-striped table-bordered table-hover table-vcenter js-dataTable-full" var="vr" value="#{clientBean.findAll()}" >
+									    <p:column class="text-center" headerText="ID">
+									        <h:outputText value="${vr.codeCli}" />
+									    </p:column>
+									 
+									    <p:column class="text-center" headerText="Adresse">
+									        <h:outputText value="${vr.adresseCli}" />
+									    </p:column>
+									    
+									     <p:column class="text-center" headerText="date Permis">
+									        <h:outputText value="${vr.datePermis}" />
+									    </p:column>
+									 
+									    <p:column class="text-center" headerText="fax">
+									        <h:outputText value="${vr.faxCli}" />
+									    </p:column>
+									     <p:column class="text-center" headerText="Email">
+									        <h:outputText value="${vr.emailCli}" />
+									    </p:column>
+									    
+									     <p:column class="text-center" headerText="Telephone">
+									        <h:outputText value="${vr.telCli}" />
+									    </p:column>
+									    
+									     <p:column headerText="date Naissance">
+									        <h:outputText value="${vr.datenaisCli}" />
+									    </p:column>
+									    
+									     <p:column class="text-center" headerText="Login">
+									        <h:outputText value="${vr.loginCli}" />
+									    </p:column>
+									    
+									 
+									    
+									      <p:column class="text-center" style="width: 100px;" headerText="Actions">
+									        <h:commandLink  value="Modifier" type="submit" class="btn btn-alt-info" action="#{clientBean.edit(vr)}" ></h:commandLink>
+									        <br></br>
+									        <h:commandLink  value="Supprimer"  type="submit" class="btn btn-alt-danger" action="#{clientBean.delete(vr)}" onclick="return confirm('Voulez vous supprimer cet utilisateur ??')" ></h:commandLink>
+									    </p:column>
+									
+									</p:dataTable>
+									         </h:form> 
+									                             
+									 </div>
+</body>
+</html>

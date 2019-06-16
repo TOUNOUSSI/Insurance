@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                                         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+ <session-factory>
+  <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+  <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/assurance?zeroDateTimeBehavior=convertToNull</property>
+  <property name="show_sql">true</property>
+  <property name="hibernate.transaction.auto_close_session">true</property>
+  <property name="hibernate.hbm2ddl.auto">create</property>
+  <property name="hibernate.connection.username">root</property>
+  <property name="hibernate.connection.username">root</property>
+  <mapping class="com.assur.entities.Piece" />
+  <mapping class="com.assur.entities.Attestation" />
+  <mapping class="com.assur.entities.Personne" />
+  <mapping class="com.assur.entities.Garantie" />
+  <mapping class="com.assur.entities.Sinistre" />
+  <mapping class="com.assur.entities.GarantieVehicule" />
+  <mapping class="com.assur.entities.Reglement" />
+  <mapping class="com.assur.entities.Usag" />
+  <mapping class="com.assur.entities.Contrat"/>
+  <mapping class="com.assur.entities.Marque" />
+  <mapping class="com.assur.entities.Vehicule" />
+  <mapping class="com.assur.entities.Client" />
+  <mapping class="com.assur.entities.Societe" />
+  <mapping class="com.assur.entities.Assureur" />
+  <mapping class="com.assur.entities.Pack" />
+ </session-factory>
+</hibernate-configuration>
