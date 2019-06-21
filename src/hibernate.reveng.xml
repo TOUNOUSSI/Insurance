@@ -17,4 +17,6 @@
   <table-filter match-catalog="assurance" match-name="societe"/>
   <table-filter match-catalog="assurance" match-name="usag"/>
   <table-filter match-catalog="assurance" match-name="vehicule"/>
+  <table-filter match-catalog="assurance" match-name="utilisateur"/>
+  
 </hibernate-reverse-engineering>

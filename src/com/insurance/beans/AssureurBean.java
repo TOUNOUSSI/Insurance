@@ -2,6 +2,7 @@ package com.insurance.beans;
 
 import com.insurance.entities.Assureur;
 import com.insurance.models.AssureurModel;
+import java.io.Serializable;
 import javax.faces.bean.*;
 
 
@@ -9,7 +10,7 @@ import java.util.*;
 
 @ManagedBean(name="assureurBean")
 @SessionScoped
-public class AssureurBean {
+public class AssureurBean  implements Serializable{
 	
 	private AssureurModel ut = new AssureurModel();
 	private Assureur u = new Assureur();
