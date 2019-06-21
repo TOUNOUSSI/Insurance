@@ -9,19 +9,13 @@ import com.insurance.entities.Utilisateur;
 import com.insurance.hibernate.util.HibernateUtil;
 import com.insurance.models.UtilisateurModel;
 import java.io.Serializable;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import org.hibernate.Session;
+import org.hibernate.HibernateException;
 
 @ManagedBean(name = "AuthentificationService")
 @RequestScoped
@@ -32,14 +26,14 @@ import org.hibernate.Session;
 public class AuthentificationService implements Serializable {
 
     private UtilisateurModel ut = new UtilisateurModel();
-    private Utilisateur authenticatedUser = new Utilisateur();
+    private Utilisateur authenticatedUser = null;
 
     @ManagedProperty(value = "#{param.login}")
     private String login;
-    
+
     @ManagedProperty(value = "#{param.password}")
     private String password;
-    
+
     @ManagedProperty(value = "#{param.loggin}")
     private String loggin;
 
@@ -61,9 +55,7 @@ public class AuthentificationService implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    private String dbuserName;
-    private String dbpassword;
+    
     HttpSession session;
 
     String sql;
@@ -71,7 +63,7 @@ public class AuthentificationService implements Serializable {
     public String singin() {
 
         try {
-             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             session = request.getSession();
             HibernateUtil.getSessionFactory().openSession();
 
@@ -79,13 +71,20 @@ public class AuthentificationService implements Serializable {
                 login = request.getParameter("Lgn:login");
                 //note the difference when getting the parameter
                 password = request.getParameter("Lgn:password");
-                
+                System.out.println("Test login");
+                              
+               authenticatedUser  = ut.findAll().
+                        stream()
+                        .filter(person -> (login.equals(person.getLogin()) && password.equals(person.getPassword())))
+                        .findAny()
+                        .orElse(null);
+                System.out.println(authenticatedUser.toString());
 
             }
-        } catch (Exception e) {
+        } catch (HibernateException e) {
             System.out.print("l'identification a echoué : " + e.getMessage());
         }
-        return"/index2.xhtml";
+        return "/index2.xhtml";
     }
 
     public void setUt(UtilisateurModel ut) {
@@ -100,16 +99,7 @@ public class AuthentificationService implements Serializable {
         this.role = role;
     }
 
-    public void setDbuserName(String dbuserName) {
-        this.dbuserName = dbuserName;
-    }
-
-    public void setDbpassword(String dbpassword) {
-        this.dbpassword = dbpassword;
-    }
-    
-    
-
+  
     public String doLogout() {
 
         return "/login.xhtml";
