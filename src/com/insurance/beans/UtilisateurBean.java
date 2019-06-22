@@ -7,7 +7,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
-@ManagedBean(name = "utilisateur")
+@ManagedBean(name = "utilisateurBean")
 @SessionScoped
 /**
  * @author TOUNOUSSI Youssef
@@ -15,8 +15,8 @@ import javax.faces.bean.SessionScoped;
 public class UtilisateurBean implements Serializable {
 
     private UtilisateurModel ut = new UtilisateurModel();
-	private Utilisateur u = new Utilisateur();
-	
+    private Utilisateur u = new Utilisateur();
+
     /**
      * Default constructor
      */
@@ -39,28 +39,32 @@ public class UtilisateurBean implements Serializable {
         this.u = u;
     }
 
-    
-   public List<Utilisateur> findAll(){
-		return ut.findAll();
-	}
-	
-	public String add() {
-		this.ut.create(this.u);
-		this.u=new Utilisateur();
-		return "index2";
-	}
-	public void delete(Utilisateur u) {
-		this.ut.delete(u);
-	}
-	public String edit(Utilisateur u)
-	{
-		this.u=u;
-		return "modifierUtilisateur";
-	}
-	
-	public String edit()
-	{
-		this.ut.update(this.u);
-		return "index2";
-	}
+    public List<Utilisateur> findAll() {
+        return ut.findAll();
+    }
+
+    public String add() {
+        this.ut.create(this.u);
+        this.u = new Utilisateur();
+        return "index2";
+    }
+
+    public void delete(Utilisateur u) {
+        this.ut.delete(u);
+    }
+
+    public String edit(Utilisateur u) {
+        this.u = u;
+        return "modifierUtilisateur";
+    }
+
+    public String edit() {
+        this.ut.update(this.u);
+        return "index2";
+    }
+
+    public Boolean isEmpty() {
+        List<Utilisateur> al = findAll();
+        return al != null;
+    }
 }

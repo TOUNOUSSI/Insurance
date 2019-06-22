@@ -3,8 +3,6 @@ package com.insurance.entities;
 
 import java.util.Date;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -15,19 +13,6 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="personne", catalog="assurance")
-@AttributeOverrides({
-	
-    @AttributeOverride(name="adresseCli", column=@Column(name="adresse_cli")),
-    @AttributeOverride(name="datenaisCli", column=@Column(name="datenais_cli")),
-    @AttributeOverride(name="emailCli", column=@Column(name="email_cli")),
-    @AttributeOverride(name="faxCli", column=@Column(name="fax_cli")),
-    @AttributeOverride(name="telCli", column=@Column(name="tel_cli")),
-    @AttributeOverride(name="loginCli", column=@Column(name="login_cli")),
-    @AttributeOverride(name="mdpCli", column=@Column(name="mdp_cli")),
-    @AttributeOverride(name="permis", column=@Column(name="permis")),
-    @AttributeOverride(name="datePermis", column=@Column(name="date_permis"))
-    
-})
 public class Personne extends Client implements java.io.Serializable {
 
 	/**

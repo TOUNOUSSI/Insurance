@@ -5,10 +5,12 @@
  */
 package com.insurance.services;
 
+import com.insurance.entities.Client;
 import com.insurance.entities.Utilisateur;
 import com.insurance.hibernate.util.HibernateUtil;
 import com.insurance.models.UtilisateurModel;
 import java.io.Serializable;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
@@ -28,6 +30,7 @@ public class AuthentificationService implements Serializable {
     private UtilisateurModel ut = new UtilisateurModel();
     private Utilisateur authenticatedUser = null;
 
+    private Client client = null;
     @ManagedProperty(value = "#{param.login}")
     private String login;
 
@@ -55,11 +58,17 @@ public class AuthentificationService implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
-    
+
     HttpSession session;
 
     String sql;
 
+    public String getRole() {
+        return role;
+    }
+
+    
+    
     public String singin() {
 
         try {
@@ -72,21 +81,44 @@ public class AuthentificationService implements Serializable {
                 //note the difference when getting the parameter
                 password = request.getParameter("Lgn:password");
                 System.out.println("Test login");
-                              
-               authenticatedUser  = ut.findAll().
+
+                authenticatedUser = ut.findAll().
                         stream()
                         .filter(person -> (login.equals(person.getLogin()) && password.equals(person.getPassword())))
                         .findAny()
                         .orElse(null);
-                System.out.println(authenticatedUser.toString());
+                if (authenticatedUser == null) {
+                    FacesMessage fm = new FacesMessage("Echec d'authentification", "ERROR MSG");
+                    fm.setSeverity(FacesMessage.SEVERITY_ERROR);
+                    FacesContext.getCurrentInstance().addMessage(null, fm);
+                    return "/login.xhtml";
+                } else {
+                    this.setRole(authenticatedUser.getRoleUtilisateur());
+                    System.out.println(authenticatedUser.getClient());
+                    this.client = authenticatedUser.getClient();
+
+                    session.setAttribute("username", authenticatedUser.getLogin());
+                    session.setAttribute("role", authenticatedUser.getRoleUtilisateur());
+                    FacesMessage fm = new FacesMessage("Bienvenue", "INFO MSG");
+                    fm.setSeverity(FacesMessage.SEVERITY_INFO);
+                    FacesContext.getCurrentInstance().addMessage(null, fm);
+                    return "/index2.xhtml";
+                }
 
             }
         } catch (HibernateException e) {
+            FacesMessage fm = new FacesMessage("Echec d'authentification", "ERROR MSG");
+            fm.setSeverity(FacesMessage.SEVERITY_ERROR);
+            FacesContext.getCurrentInstance().addMessage(null, fm);
             System.out.print("l'identification a echoué : " + e.getMessage());
         }
-        return "/index2.xhtml";
+        return "/login.xhtml";
     }
 
+    public Client getClient() {
+        return client;
+    }
+    
     public void setUt(UtilisateurModel ut) {
         this.ut = ut;
     }
@@ -95,11 +127,16 @@ public class AuthentificationService implements Serializable {
         this.authenticatedUser = authenticatedUser;
     }
 
+    public Utilisateur getAuthenticatedUser() {
+        return authenticatedUser;
+    }
+    
+    
+
     public void setRole(String role) {
         this.role = role;
     }
 
-  
     public String doLogout() {
 
         return "/login.xhtml";

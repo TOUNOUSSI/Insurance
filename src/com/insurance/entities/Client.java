@@ -54,6 +54,7 @@ public class Client implements java.io.Serializable {
     @OneToMany(mappedBy ="num_client" ,targetEntity = Contrat.class,cascade = CascadeType.ALL)
     private List<Contrat> contrats;
 
+    
     public Client() {
     }
 
@@ -173,6 +174,8 @@ public class Client implements java.io.Serializable {
     public void setContrats(List<Contrat> contrats) {
         this.contrats = contrats;
     }
+
+   
 
     @Override
     public String toString() {

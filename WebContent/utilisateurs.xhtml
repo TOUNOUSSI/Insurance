@@ -14,7 +14,7 @@
             <meta name="keywords" content="au theme template"></meta>
 
 
-            <title>Dashboard</title>
+            <title>Assurance - utilisateurs</title>
 
             <!-- Fontfaces CSS-->
             <link href="css/font-face.css" rel="stylesheet" media="all"></link>
@@ -39,6 +39,7 @@
             <link href="css/theme.css" rel="stylesheet" media="all"></link>
 
         </h:head>
+
         <h:body class="animsition">
             <div class="page-wrapper">
                 <!-- HEADER MOBILE-->
@@ -123,15 +124,15 @@
                                 </li>
 
                                 <li >
-                                    <li class=" active has-sub">
-                                        <a class="js-arrow" href="#">
+                                    <li class=" has-sub">
+                                        <a class=" js-arrow" href="#">
                                             <i class="fas fa-user"></i>Gérer clients
                                             <span class="arrow">
                                                 <i class="fas fa-angle-down"></i>
                                             </span>
                                         </a>
                                         <ul class="list-unstyled navbar__sub-list js-sub-list">
-                                            <li class="active">
+                                            <li>
                                                 <a href="clients.xhtml">   Liste des clients</a>
                                             </li>
                                             <li >
@@ -159,7 +160,7 @@
                                     </li>
                                 </li>
                                 <li >
-                                    <li class=" has-sub">
+                                    <li class=" active has-sub">
                                         <a class="js-arrow" href="#">
                                             <i class="fas fa-user"></i>Gérer utilisateurs
                                             <span class="arrow">
@@ -167,7 +168,7 @@
                                             </span>
                                         </a>
                                         <ul class="list-unstyled navbar__sub-list js-sub-list">
-                                            <li >
+                                            <li  class="active">
                                                 <a href="utilisateurs.xhtml">   Liste des utilisateurs</a>
                                             </li>
                                             <li >
@@ -181,7 +182,7 @@
                                         <i class="far fa-check-square"></i>Gérer demandes d'attestation</a>
                                 </li>
                                 <li >
-                                    <li class=" has-sub">
+                                    <li class="  has-sub">
                                         <a class="js-arrow" href="#">
                                             <i class="fas fa-chart-bar"></i>Gérer reglements
                                             <span class="arrow">
@@ -192,7 +193,7 @@
                                             <li >
                                                 <a href="reglements.xhtml">   Liste des reglements</a>
                                             </li>
-                                            <li  >
+                                            <li class="">
                                                 <a href="ajoutreglement.xhtml"> Ajouter reglements</a>
                                             </li>
                                         </ul>
@@ -390,210 +391,56 @@
                     <div class="main-content">
                         <div class="section__content section__content--p30">
                             <div class="container-fluid">
-
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="overview-wrap">
+                                            <h2 class="title-1"></h2>
+                                            <p:link class="au-btn au-btn-icon au-btn--blue" value="Ajouter" outcome="ajoutclient"></p:link>
+                                        </div>
+                                    </div>
+                                </div>
 
                                 <div class="row">
 
-                                    <h2 class="title-1 m-b-25">Ajouter client</h2>
+                                    <h3>Liste des utilisateurs</h3>
                                     <div class="table-responsive table--no-card m-b-40">
-                                        <h:form prependId="false">              
-                                            <div class="col-md-12">
-                                                <div class="form-group row">
-                                                    <div class="col-md-12">
-                                                        <div class="form-material">
-                                                            <label for="type">Type</label>
+                                        <h:outputText value="Aucun client n'est ajouté!" rendered="#{empty utilisateurBean.isEmpty() eq true}" />
 
-                                                            <h:selectOneMenu id="type" class="form-control " value="#{clientBean.selected_type}">
-                                                                <f:selectItems value="#{clientBean.client_types}" var="ph"/>
-                                                                <f:ajax event="change" execute="@this"  listener="#{clientBean.triggerType()}" render="panelPersonneBlock" />             
-                                                            </h:selectOneMenu>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <h:panelGroup layout="block" id="panelPersonneBlock" >
-                                                    <h:panelGroup layout="block" id="panelCIN" rendered="#{clientBean.selected_type == 'personne'}">
-                                                        <div class="form-group row" >
-                                                            <div class="col-md-12">
-                                                                <div class="form-material">
-                                                                    <label for="nom">CIN</label>
-                                                                    <p:inputText value="#{clientBean.personne.cin}" id="cin" class="form-control"></p:inputText>
+                                        <h:form id="tableForm" >
+                                            <p:dataTable class="table table-striped table-bordered"  rendered="#{empty utilisateurBean.isEmpty() eq false}"    var="vr" value="#{utilisateurBean.findAll()}" paginator="true" rows="3"
+                                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                         draggableRows="true" rowsPerPageTemplate="3,5,10" widgetVar="50"  >
+
+                                                 <p:column class="dt-head-right" style="width:4%" headerText="ID">
+                                                     <h:outputText class="dt-body-right" style="font-size: 14px" value="${vr.idUtilisateur}" />
+                                                </p:column>
+                                                <p:column class="dt-head-right" headerText="Login">
+                                                    <h:outputText class="dt-body-right" style="font-size: 14px" value="${vr.login}" />
+                                                </p:column>
+
+                                                <p:column class="dt-head-right" style="width:6%"  headerText="Role">
+                                                    <h:outputText class="dt-body-right" style="font-size: 14px" value="${vr.roleUtilisateur}" />
+                                                </p:column>
 
 
+                                                <p:column class="dt-head-right"  headerText="Date Creation">
+                                                    <h:outputText class="dt-body-right" style="font-size: 14px" value="${vr.dateCreation}" />
+                                                </p:column>
+                                                <p:column class="dt-head-right" headerText="Date d'expiration">
+                                                    <h:outputText class="dt-body-right" style="font-size: 14px" value="${vr.dateExpiration}" />
+                                                </p:column>
 
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </h:panelGroup>
-                                                    <h:panelGroup layout="block" id="panelNomCli" rendered="#{clientBean.selected_type == 'personne'}">
+                                               
 
-                                                        <div class="form-group row" >
-                                                            <div class="col-md-12">
-                                                                <div class="form-material">
-                                                                    <label for="nom">Nom</label>
-                                                                    <p:inputText value="#{clientBean.personne.nomCli}" id="nomCli" class="form-control"></p:inputText>
+                                                <p:column class="dt-head-center" style="width:12%" headerText="Actions">
+                                                    <h:commandLink type="submit" class="btn btn-info btn-sm" action="#{utilisateurBean.edit(vr)}" ><i class="fas fa-edit"></i> </h:commandLink>
+                                                    &nbsp;
+                                                    <h:commandLink    type="submit" class="btn btn-danger btn-sm" action="#{utilisateurBean.delete(vr)}" onclick="return confirm('Voulez vous supprimer cet utilisateur ??')" ><i class="fas fa-trash"></i></h:commandLink>
+                                                </p:column>
 
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </h:panelGroup>
-                                                    <h:panelGroup layout="block" id="panelPrenomCli" rendered="#{clientBean.selected_type == 'personne'}">
-
-                                                        <div class="form-group row" >
-                                                            <div class="col-md-12">
-                                                                <div class="form-material">
-                                                                    <label for="nom">Prénom</label>
-                                                                    <p:inputText value="#{clientBean.personne.prenomCli}" id="prenomCli" class="form-control"></p:inputText>
-
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </h:panelGroup>
-
-                                                    <h:panelGroup layout="block" id="panelDomaineDActivite" rendered="#{clientBean.selected_type == 'societe'}">
-                                                        <div class="form-group row" >
-                                                            <div class="col-md-12">
-                                                                <div class="form-material">
-                                                                    <label for="domaineDActivite">Domaine d'activite</label>
-                                                                    <p:inputText value="#{clientBean.societe.domaineDActivite}" id="domaineDActivite" class="form-control"></p:inputText>
-
-
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </h:panelGroup>
-                                                    <h:panelGroup layout="block" id="panelRaisonSocial" rendered="#{clientBean.selected_type == 'societe'}">
-
-                                                        <div class="form-group row" >
-                                                            <div class="col-md-12">
-                                                                <div class="form-material">
-                                                                    <label for="raisonSocial">Raison social</label>
-                                                                    <p:inputText value="#{clientBean.societe.raisonSocial}" id="raisonSocial" class="form-control"></p:inputText>
-
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </h:panelGroup>
-                                                    <h:panelGroup layout="block" id="panelSigle" rendered="#{clientBean.selected_type == 'societe'}">
-
-                                                        <div class="form-group row" >
-                                                            <div class="col-md-12">
-                                                                <div class="form-material">
-                                                                    <label for="sigle">Sigle</label>
-                                                                    <p:inputText value="#{clientBean.societe.sigle}" id="sigle" class="form-control"></p:inputText>
-
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </h:panelGroup>
-
-                                                </h:panelGroup>
-
-                                                <div class="form-group row">
-                                                    <div class="col-md-12">
-                                                        <div class="form-material">
-                                                            <label for="adresseCli">Adresse</label>
-                                                            <p:inputText value="#{clientBean.u.adresseCli}" id="adresseCli" class="form-control"></p:inputText>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group row">
-                                                    <div class="col-md-12">
-                                                        <div class="form-material ">
-                                                            <label for="emailCli">Email</label>
-                                                            <p:inputText value="#{clientBean.u.emailCli}" id="emailCli"   class="form-control"></p:inputText>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group row">
-                                                    <div class="col-md-12">
-                                                        <div class="form-material ">
-                                                            <label for="faxCli">Fax</label>
-                                                            <p:inputText value="#{clientBean.u.faxCli}" id="faxCli"  class="form-control"></p:inputText>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <div class="col-md-12">
-                                                        <div class="form-material ">
-                                                            <label for="telCli">Téléphone</label>
-                                                            <p:inputText value="#{clientBean.u.telCli}" id="telCli"  class="form-control"></p:inputText>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group row">
-                                                    <div class="col-md-12">
-                                                        <div class="form-material ">
-                                                            <label for="loginCli">Identifiant</label>
-                                                            <p:inputText value="#{clientBean.u.loginCli}" id="loginCli" class="form-control"></p:inputText>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <div class="col-md-12">
-                                                        <div class="form-material ">
-                                                            <label for="permis">Permis</label>
-                                                            <p:inputText value="#{clientBean.u.permis}" id="permis"  class="form-control"></p:inputText>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <div class="col-md-12">
-                                                        <div class="form-material ">
-                                                            <label for="mdpCli">Mot de passe</label>
-                                                            <p:password value="#{clientBean.u.mdpCli}" id="mdpCli"   class="form-control"></p:password>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <div class="col-md-12">
-                                                        <div class="form-material ">
-                                                            <label for="datenaisCli">Date de naissance</label>
-                                                            <p:inputText value="#{clientBean.u.datenaisCli}" id="datenaisCli"   class="form-control datepicker">
-                                                                <f:convertDateTime pattern="yyyy-MM-dd" />
-                                                            </p:inputText>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <div class="col-md-12">
-                                                        <div class="form-material ">
-                                                            <label for="datePermis">Date Permis</label>
-                                                            <p:inputText value="#{clientBean.u.datePermis}" id="datePermis"  class="form-control datepicker">
-                                                                <f:convertDateTime pattern="yyyy-MM-dd" />
-                                                            </p:inputText>
-
-                                                        </div>
-                                                    </div>
-
-
-                                                </div></div>
-
-
-                                            <div class="col-md-12">
-
-                                                <h:commandButton value="Ajouter" type="submit" class="btn btn-success pull-right" action="#{clientBean.add()}"  />
-                                                &nbsp;
-                                                <h:commandButton value="Annuler" type="submit" class="btn btn-default pull-right" onclick="history.back(); return false;" />
-
-                                            </div>
-                                            <br/>
+                                            </p:dataTable>
                                         </h:form> 
+
 
                                     </div>
 
@@ -612,6 +459,7 @@
             <!-- Jquery JS-->
             <script src="js/bootstrap-datepicker.min.js"></script>
             <script src="js/bootstrap-datepicker.fr.min.js"></script>
+
             <!-- Bootstrap JS-->
             <script src="vendor/bootstrap-4.1/popper.min.js"></script>
             <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
@@ -628,9 +476,7 @@
             <script src="vendor/circle-progress/circle-progress.min.js"></script>
             <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
             <script src="vendor/chartjs/Chart.bundle.min.js"></script>
-            <script src="vendor/select2/select2.min.js">
-            </script>
-
+            <script src="vendor/select2/select2.min.js"></script>
             <!-- Main JS-->
             <script src="js/main.js"></script>
 

@@ -2,12 +2,15 @@ package com.insurance.entities;
 // Generated 20 mai 2019 23:32:14 by Hibernate Tools 5.4.2.Final
 
 import java.sql.Date;
+import javax.persistence.CascadeType;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -38,6 +41,10 @@ public class Utilisateur implements java.io.Serializable {
 
     @Column(name = "role_utilisateur")
     private String roleUtilisateur;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_client", updatable = true, nullable = true, insertable = true)
+    private Client client;
 
     public Utilisateur() {
     }
@@ -97,6 +104,14 @@ public class Utilisateur implements java.io.Serializable {
 
     public void setRoleUtilisateur(String roleUtilisateur) {
         this.roleUtilisateur = roleUtilisateur;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     @Override
