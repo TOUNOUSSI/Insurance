@@ -12,6 +12,11 @@ import javax.faces.bean.*;
 import java.io.Serializable;
 
 import java.util.*;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 
 @ManagedBean(name = "contratBean")
 @SessionScoped
@@ -185,6 +190,28 @@ public class ContratBean implements Serializable {
             vehicules.add(p.getImmatOuMoto().toString());
         });
         return vehicules;
+
+    }
+    
+    public String[] getContratNumberPerMonth() {
+        Session session = null;
+        String[] oneYearResult = {"0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"};
+        try {
+
+            SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+            session = sessionFactory.openSession();
+            //Group By Clause Example
+            String SQL_QUERY = "select count(*) as Total, dateEffet  FROM Contrat group by dateEffet";
+            Query query = session.createQuery(SQL_QUERY);
+            for (Iterator it = query.iterate(); it.hasNext();) {
+                Object[] row = (Object[]) it.next();
+                oneYearResult[Integer.parseInt(row[1].toString().substring(5, 7)) - 1] = row[0].toString();
+
+            }
+        } catch (NumberFormatException | HibernateException e) {
+            return new String[0];
+        }
+        return oneYearResult;
 
     }
 

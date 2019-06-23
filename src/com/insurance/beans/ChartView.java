@@ -60,6 +60,7 @@ public class ChartView implements Serializable {
     private LineChartModel multiAxisModel;
     private LineChartModel dateModel;
     private String[] sinistres = {};
+    private String[] contrats = {};
 
     @PostConstruct
     public void init() {
@@ -69,6 +70,7 @@ public class ChartView implements Serializable {
     public ChartView() {
 
         this.sinistres = new SinistreBean().getSinistreNumberPerMonth();;
+        this.contrats = new ContratBean().getContratNumberPerMonth();;
 
     }
 
@@ -166,26 +168,37 @@ public class ChartView implements Serializable {
     public void createLineModel() {
         lineModel1 = new LineChartModel();
         ChartData data = new ChartData();
-        List<String> labels = new ArrayList<>();
+        List<String> sinistresLabels = new ArrayList<>();
+        List<String> contratsLabels = new ArrayList<>();
+        LineChartDataSet sinistresDATASET = new LineChartDataSet();
+        LineChartDataSet contratsDATASET = new LineChartDataSet();
+        List<Number> sinistresValues = new ArrayList<>();
+        List<Number> contratsValues = new ArrayList<>();
         String[] months = new String[]{"Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"};
-
-        LineChartDataSet dataSet = new LineChartDataSet();
-        List<Number> values = new ArrayList<>();
 
         if (this.sinistres.length > 2) {
             for (int i = 0; i < this.sinistres.length; i++) {
-                values.add(Integer.parseInt(this.sinistres[i]));
-                labels.add(months[i]);
+                sinistresValues.add(Integer.parseInt(this.sinistres[i]));
+                contratsValues.add(Integer.parseInt(this.contrats[i]));
+                sinistresLabels.add(months[i]);
+                contratsLabels.add(months[i]);
             }
         }
-        dataSet.setData(values);
-        dataSet.setFill(false);
-        dataSet.setLabel("Sinistres");
-        dataSet.setBorderColor("rgb(75, 192, 192)");
-        dataSet.setLineTension(0.1);
-        data.addChartDataSet(dataSet);
+        sinistresDATASET.setData(sinistresValues);
+        sinistresDATASET.setFill(false);
+        sinistresDATASET.setLabel("Sinistres");
+        sinistresDATASET.setBorderColor("rgb(75, 192, 192)");
+        sinistresDATASET.setLineTension(0.1);
 
-        data.setLabels(labels);
+        contratsDATASET.setData(sinistresValues);
+        contratsDATASET.setFill(false);
+        contratsDATASET.setLabel("Contrats");
+        contratsDATASET.setBorderColor("rgb(162, 72, 72)");
+        contratsDATASET.setLineTension(0.1);
+
+        data.addChartDataSet(sinistresDATASET);
+        data.addChartDataSet(contratsDATASET);
+        data.setLabels(sinistresLabels);
 
         //Options
         LineChartOptions options = new LineChartOptions();

@@ -10,6 +10,7 @@ import javax.faces.bean.*;
 import java.io.Serializable;
 
 import java.util.*;
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -148,17 +149,21 @@ public class SinistreBean implements Serializable {
 
     public String[] getSinistreNumberPerMonth() {
         Session session = null;
-        String[] oneYearResult ={"1","2","3","4","5","6","7","8","9","10","11","12"};
-      
-        SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
-        session = sessionFactory.openSession();
-        //Group By Clause Example
-        String SQL_QUERY = "select count(*) as Total, dateSinistre  FROM Sinistre group by dateSinistre";
-        Query query = session.createQuery(SQL_QUERY);
-        for (Iterator it = query.iterate(); it.hasNext();) {
-            Object[] row = (Object[]) it.next();
-            oneYearResult[Integer.parseInt(row[1].toString().substring(5,7)) - 1] = row[0].toString();
-           
+        String[] oneYearResult = {"0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"};
+        try {
+
+            SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+            session = sessionFactory.openSession();
+            //Group By Clause Example
+            String SQL_QUERY = "select count(*) as Total, dateSinistre  FROM Sinistre group by dateSinistre";
+            Query query = session.createQuery(SQL_QUERY);
+            for (Iterator it = query.iterate(); it.hasNext();) {
+                Object[] row = (Object[]) it.next();
+                oneYearResult[Integer.parseInt(row[1].toString().substring(5, 7)) - 1] = row[0].toString();
+
+            }
+        } catch (NumberFormatException | HibernateException e) {
+            return new String[0];
         }
         return oneYearResult;
 

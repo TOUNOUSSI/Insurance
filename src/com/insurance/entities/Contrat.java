@@ -76,7 +76,7 @@ public class Contrat implements java.io.Serializable {
     private Pack pack;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "immat_ou_moto", updatable = false, nullable = false, insertable = false)
+    @JoinColumn(name = "immat_ou_moto", updatable = false, nullable = false, insertable = false,unique = false)
     private Vehicule vehicule;
 
     public Contrat() {
