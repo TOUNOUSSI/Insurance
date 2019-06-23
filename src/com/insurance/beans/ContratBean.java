@@ -10,6 +10,8 @@ import com.insurance.models.ClientModel;
 import javax.faces.bean.*;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 
 import java.util.*;
 import org.hibernate.HibernateException;
@@ -38,6 +40,7 @@ public class ContratBean implements Serializable {
     private Integer nombreDeContrat;
 
     public ContratBean() {
+        System.out.println("SIZEEEEEEED :"+ this.ut.findAll().size());
         this.nombreDeContrat = this.ut.findAll().size();
     }
 
@@ -60,6 +63,27 @@ public class ContratBean implements Serializable {
     public Integer getNombreDeContrat() {
         return nombreDeContrat;
     }
+
+    public void setPacks(List<String> packs) {
+        this.packs = packs;
+    }
+
+    public void setClients(List<String> clients) {
+        this.clients = clients;
+    }
+
+    public void setAssureurs(List<String> assureurs) {
+        this.assureurs = assureurs;
+    }
+
+    public void setSinistres(List<String> sinistres) {
+        this.sinistres = sinistres;
+    }
+
+    public void setVehicules(List<String> vehicules) {
+        this.vehicules = vehicules;
+    }
+    
 
     public void setNombreDeContrat(Integer nombreDeContrat) {
         this.nombreDeContrat = nombreDeContrat;
@@ -192,7 +216,7 @@ public class ContratBean implements Serializable {
         return vehicules;
 
     }
-    
+
     public String[] getContratNumberPerMonth() {
         Session session = null;
         String[] oneYearResult = {"0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"};
@@ -201,8 +225,12 @@ public class ContratBean implements Serializable {
             SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
             session = sessionFactory.openSession();
             //Group By Clause Example
-            String SQL_QUERY = "select count(*) as Total, dateEffet  FROM Contrat group by dateEffet";
+            String SQL_QUERY = "select count(*) as Total, dateEffet  FROM Contrat where dateEffet >= :myDate group by dateEffet ";
             Query query = session.createQuery(SQL_QUERY);
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.MONTH, -12);
+            Date date = cal.getTime();
+            query.setParameter("myDate", date);
             for (Iterator it = query.iterate(); it.hasNext();) {
                 Object[] row = (Object[]) it.next();
                 oneYearResult[Integer.parseInt(row[1].toString().substring(5, 7)) - 1] = row[0].toString();

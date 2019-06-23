@@ -13,29 +13,25 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import org.primefaces.event.ItemSelectEvent;
-import org.primefaces.model.chart.Axis;
-import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.BubbleChartModel;
 import org.primefaces.model.chart.CartesianChartModel;
-import org.primefaces.model.chart.CategoryAxis;
-import org.primefaces.model.chart.ChartSeries;
-import org.primefaces.model.chart.DateAxis;
 import org.primefaces.model.chart.DonutChartModel;
 import org.primefaces.model.chart.HorizontalBarChartModel;
-import org.primefaces.model.chart.LineChartSeries;
 import org.primefaces.model.chart.MeterGaugeChartModel;
 import org.primefaces.model.chart.OhlcChartModel;
-import org.primefaces.model.chart.PieChartModel;
+import org.primefaces.model.charts.pie.PieChartModel;
 import org.primefaces.model.charts.ChartData;
 import org.primefaces.model.charts.line.LineChartDataSet;
 import org.primefaces.model.charts.line.LineChartModel;
 import org.primefaces.model.charts.line.LineChartOptions;
 import org.primefaces.model.charts.optionconfig.title.Title;
+import org.primefaces.model.charts.pie.PieChartDataSet;
 
 @ManagedBean(name = "chartViewBean")
 public class ChartView implements Serializable {
 
+    private PieChartModel pieModel;
     private LineChartModel lineModel1;
     private LineChartModel lineModel2;
     private LineChartModel zoomModel;
@@ -65,12 +61,39 @@ public class ChartView implements Serializable {
     @PostConstruct
     public void init() {
         createLineModel();
+        createPieModel();
     }
 
+    private void createPieModel() {
+        pieModel = new PieChartModel();
+        ChartData data = new ChartData();
+         
+        PieChartDataSet dataSet = new PieChartDataSet();
+        List<Number> values = new ArrayList<>();
+        values.add(300);
+        values.add(50);
+        values.add(100);
+        dataSet.setData(values);
+         
+        List<String> bgColors = new ArrayList<>();
+        bgColors.add("rgb(255, 99, 132)");
+        bgColors.add("rgb(54, 162, 235)");
+        bgColors.add("rgb(255, 205, 86)");
+        dataSet.setBackgroundColor(bgColors);
+         
+        data.addChartDataSet(dataSet);
+        List<String> labels = new ArrayList<>();
+        labels.add("Red");
+        labels.add("Blue");
+        labels.add("Yellow");
+        data.setLabels(labels);
+         
+        pieModel.setData(data);
+    }
     public ChartView() {
 
-        this.sinistres = new SinistreBean().getSinistreNumberPerMonth();;
-        this.contrats = new ContratBean().getContratNumberPerMonth();;
+        this.sinistres = new SinistreBean().getSinistreNumberPerMonth();
+        this.contrats = new ContratBean().getContratNumberPerMonth();
 
     }
 
@@ -80,6 +103,15 @@ public class ChartView implements Serializable {
 
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
+
+    public PieChartModel getPieModel() {
+        return pieModel;
+    }
+
+    public void setPieModel(PieChartModel pieModel) {
+        this.pieModel = pieModel;
+    }
+    
 
     public LineChartModel getLineModel1() {
         return lineModel1;
@@ -190,15 +222,17 @@ public class ChartView implements Serializable {
         sinistresDATASET.setBorderColor("rgb(75, 192, 192)");
         sinistresDATASET.setLineTension(0.1);
 
-        contratsDATASET.setData(sinistresValues);
+        contratsDATASET.setData(contratsValues);
         contratsDATASET.setFill(false);
         contratsDATASET.setLabel("Contrats");
         contratsDATASET.setBorderColor("rgb(162, 72, 72)");
         contratsDATASET.setLineTension(0.1);
 
         data.addChartDataSet(sinistresDATASET);
-        data.addChartDataSet(contratsDATASET);
         data.setLabels(sinistresLabels);
+
+        data.addChartDataSet(contratsDATASET);
+        data.setLabels(contratsLabels);
 
         //Options
         LineChartOptions options = new LineChartOptions();

@@ -8,6 +8,7 @@ import com.insurance.models.SinistreModel;
 import javax.faces.bean.*;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 
 import java.util.*;
 import org.hibernate.HibernateException;
@@ -85,12 +86,6 @@ public class SinistreBean implements Serializable {
 
     public List<Sinistre> findAll() {
         try {
-            System.out.println("Liste des sinistres");
-            List<Sinistre> sinstrs = ut.findAll();
-            for (Sinistre s : sinstrs) {
-                System.out.println(s.toString());
-
-            }
             return ut.findAll();
         } catch (Exception e) {
             System.out.println("Exception inside SinistreBean | findAll | causedBy:  " + e.getMessage());
@@ -155,8 +150,12 @@ public class SinistreBean implements Serializable {
             SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
             session = sessionFactory.openSession();
             //Group By Clause Example
-            String SQL_QUERY = "select count(*) as Total, dateSinistre  FROM Sinistre group by dateSinistre";
+            String SQL_QUERY = "select count(*) as Total, dateSinistre  FROM Sinistre where dateSinistre >= :myDate group by dateSinistre";
             Query query = session.createQuery(SQL_QUERY);
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.MONTH, -12);
+            Date date = cal.getTime();
+            query.setParameter("myDate", date);
             for (Iterator it = query.iterate(); it.hasNext();) {
                 Object[] row = (Object[]) it.next();
                 oneYearResult[Integer.parseInt(row[1].toString().substring(5, 7)) - 1] = row[0].toString();
