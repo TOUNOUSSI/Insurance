@@ -27,6 +27,7 @@ import org.primefaces.model.charts.line.LineChartModel;
 import org.primefaces.model.charts.line.LineChartOptions;
 import org.primefaces.model.charts.optionconfig.title.Title;
 import org.primefaces.model.charts.pie.PieChartDataSet;
+import org.primefaces.model.charts.pie.PieChartOptions;
 
 @ManagedBean(name = "chartViewBean")
 public class ChartView implements Serializable {
@@ -67,29 +68,38 @@ public class ChartView implements Serializable {
     private void createPieModel() {
         pieModel = new PieChartModel();
         ChartData data = new ChartData();
-         
+        List<Object[]> sinistresValues = new SinistreBean().getSinistreNumbersPerStats();
         PieChartDataSet dataSet = new PieChartDataSet();
         List<Number> values = new ArrayList<>();
-        values.add(300);
-        values.add(50);
-        values.add(100);
+        List<String> labels = new ArrayList<>();
+        for (Object[] obj : sinistresValues) {
+            values.add(Integer.parseInt(obj[0].toString()));
+            labels.add(obj[1].toString());
+
+        }
+
         dataSet.setData(values);
-         
+
         List<String> bgColors = new ArrayList<>();
         bgColors.add("rgb(255, 99, 132)");
         bgColors.add("rgb(54, 162, 235)");
         bgColors.add("rgb(255, 205, 86)");
         dataSet.setBackgroundColor(bgColors);
-         
+
         data.addChartDataSet(dataSet);
-        List<String> labels = new ArrayList<>();
-        labels.add("Red");
-        labels.add("Blue");
-        labels.add("Yellow");
+
+        //Options
+        PieChartOptions options = new PieChartOptions();
+        Title title = new Title();
+        title.setDisplay(true);
+        title.setText("Nombre de sinistre par etat");
+        options.setTitle(title);
+
         data.setLabels(labels);
-         
+        pieModel.setOptions(options);
         pieModel.setData(data);
     }
+
     public ChartView() {
 
         this.sinistres = new SinistreBean().getSinistreNumberPerMonth();
@@ -111,7 +121,6 @@ public class ChartView implements Serializable {
     public void setPieModel(PieChartModel pieModel) {
         this.pieModel = pieModel;
     }
-    
 
     public LineChartModel getLineModel1() {
         return lineModel1;

@@ -168,4 +168,26 @@ public class SinistreBean implements Serializable {
 
     }
 
+    public List<Object[]> getSinistreNumbersPerStats() {
+        Session session = null;
+        List<Object[]> sinistresPersStatsDATA = new ArrayList<>();
+        try {
+
+            SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+            session = sessionFactory.openSession();
+            //Group By Clause Example
+            String SQL_QUERY = "select count(*) as Total, etatAvance  FROM Sinistre group by etatAvance";
+            Query query = session.createQuery(SQL_QUERY);
+            
+            for (Iterator it = query.iterate(); it.hasNext();) {
+                Object[] row = (Object[]) it.next();
+                sinistresPersStatsDATA.add(row);
+            }
+        } catch (NumberFormatException | HibernateException e) {
+            return new ArrayList<>();
+        }
+        return sinistresPersStatsDATA;
+
+    }
+
 }

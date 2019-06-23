@@ -29,7 +29,7 @@ public class AuthentificationService implements Serializable {
 
     private UtilisateurModel ut = new UtilisateurModel();
     private Utilisateur authenticatedUser = null;
-
+    
     private Client client = null;
     @ManagedProperty(value = "#{param.login}")
     private String login;
