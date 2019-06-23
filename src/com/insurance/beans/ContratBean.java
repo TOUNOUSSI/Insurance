@@ -30,6 +30,35 @@ public class ContratBean implements Serializable {
     private List<String> assureurs;
     private List<String> sinistres;
     private List<String> vehicules;
+    private Integer nombreDeContrat;
+
+    public ContratBean() {
+        this.nombreDeContrat = this.ut.findAll().size();
+    }
+
+    public ContratModel getUt() {
+        return ut;
+    }
+
+    public void setUt(ContratModel ut) {
+        this.ut = ut;
+    }
+
+    public AssureurModel getAssureurModel() {
+        return assureurModel;
+    }
+
+    public void setAssureurModel(AssureurModel assureurModel) {
+        this.assureurModel = assureurModel;
+    }
+
+    public Integer getNombreDeContrat() {
+        return nombreDeContrat;
+    }
+
+    public void setNombreDeContrat(Integer nombreDeContrat) {
+        this.nombreDeContrat = nombreDeContrat;
+    }
 
     public Contrat getU() {
         return u;

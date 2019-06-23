@@ -1,6 +1,7 @@
 package com.insurance.beans;
 
 import com.insurance.entities.Sinistre;
+import com.insurance.hibernate.util.HibernateUtil;
 import com.insurance.models.ReglementModel;
 import com.insurance.models.ContratModel;
 import com.insurance.models.SinistreModel;
@@ -9,6 +10,11 @@ import javax.faces.bean.*;
 import java.io.Serializable;
 
 import java.util.*;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
 
 @ManagedBean(name = "sinistreBean")
 @SessionScoped
@@ -22,6 +28,27 @@ public class SinistreBean implements Serializable {
     private String reglement_lib;
     private List<String> contrats;
     private List<String> reglements;
+    private Integer nombreDeSinistre;
+
+    public SinistreBean() {
+        this.nombreDeSinistre = this.ut.findAll().size();
+    }
+
+    public SinistreModel getUt() {
+        return ut;
+    }
+
+    public void setUt(SinistreModel ut) {
+        this.ut = ut;
+    }
+
+    public Integer getNombreDeSinistre() {
+        return nombreDeSinistre;
+    }
+
+    public void setNombreDeSinistre(Integer nombreDeSinistre) {
+        this.nombreDeSinistre = nombreDeSinistre;
+    }
 
     public Sinistre getU() {
         return u;
@@ -54,8 +81,6 @@ public class SinistreBean implements Serializable {
     public void setReglement_lib(String reglement_lib) {
         this.reglement_lib = reglement_lib;
     }
-    
-    
 
     public List<Sinistre> findAll() {
         try {
@@ -102,8 +127,8 @@ public class SinistreBean implements Serializable {
         }
         return al != null;
     }
-    
-     public List<String> getReglements() {
+
+    public List<String> getReglements() {
         ReglementModel rm = new ReglementModel();
         reglements = new ArrayList<>();
         rm.findAll().forEach((p) -> {
@@ -111,14 +136,32 @@ public class SinistreBean implements Serializable {
         });
         return reglements;
     }
-     
-       public List<String> getContrats() {
+
+    public List<String> getContrats() {
         ContratModel cm = new ContratModel();
         contrats = new ArrayList<>();
         cm.findAll().forEach((p) -> {
             contrats.add(p.getRefContrat().toString());
         });
         return contrats;
+    }
+
+    public String[] getSinistreNumberPerMonth() {
+        Session session = null;
+        String[] oneYearResult ={"1","2","3","4","5","6","7","8","9","10","11","12"};
+      
+        SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+        session = sessionFactory.openSession();
+        //Group By Clause Example
+        String SQL_QUERY = "select count(*) as Total, dateSinistre  FROM Sinistre group by dateSinistre";
+        Query query = session.createQuery(SQL_QUERY);
+        for (Iterator it = query.iterate(); it.hasNext();) {
+            Object[] row = (Object[]) it.next();
+            oneYearResult[Integer.parseInt(row[1].toString().substring(5,7)) - 1] = row[0].toString();
+           
+        }
+        return oneYearResult;
+
     }
 
 }

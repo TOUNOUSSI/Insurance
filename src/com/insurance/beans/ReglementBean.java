@@ -17,6 +17,27 @@ public class ReglementBean implements Serializable {
     private Reglement u = new Reglement();
     private Reglement reglement_ToAdd = new Reglement();
     private List<String> sinistres = new ArrayList<>();
+    private Integer nombreDeReglement;
+
+    public ReglementBean() {
+        this.nombreDeReglement = this.ut.findAll().size();
+    }
+
+    public ReglementModel getUt() {
+        return ut;
+    }
+
+    public void setUt(ReglementModel ut) {
+        this.ut = ut;
+    }
+
+    public Integer getNombreDeReglement() {
+        return nombreDeReglement;
+    }
+
+    public void setNombreDeReglement(Integer nombreDeReglement) {
+        this.nombreDeReglement = nombreDeReglement;
+    }
 
     @ManagedProperty(value = "#{sinistreBean}")
     private SinistreBean sinistrebean;
@@ -45,7 +66,6 @@ public class ReglementBean implements Serializable {
         this.reglement_ToAdd = reglement_ToAdd;
     }
 
-    
     public void setSinistres(List<String> sinistres) {
         this.sinistres = sinistres;
     }

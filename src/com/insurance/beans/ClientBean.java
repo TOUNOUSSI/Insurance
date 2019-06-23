@@ -19,7 +19,7 @@ public class ClientBean implements Serializable {
     private ClientModel ut = new ClientModel();
     private PersonneModel pm = new PersonneModel();
     private SocieteModel sm = new SocieteModel();
-
+    private Integer nombreDeClient = 0;
     private Client u = new Client();
 
     private Personne personne = new Personne();
@@ -32,8 +32,18 @@ public class ClientBean implements Serializable {
     public ClientBean() {
         client_types.add("personne");
         client_types.add("societe");
+        this.nombreDeClient = ut.findAll().size();
     }
 
+    public Integer getNombreDeClient() {
+        return nombreDeClient;
+    }
+
+    public void setNombreDeClient(Integer nombreDeClient) {
+        this.nombreDeClient = nombreDeClient;
+    }
+
+    
     public List<String> getClient_types() {
         return client_types;
     }
