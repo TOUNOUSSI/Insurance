@@ -29,8 +29,9 @@ public class AuthentificationService implements Serializable {
 
     private UtilisateurModel ut = new UtilisateurModel();
     private Utilisateur authenticatedUser = null;
-    
+
     private Client client = null;
+
     @ManagedProperty(value = "#{param.login}")
     private String login;
 
@@ -67,8 +68,6 @@ public class AuthentificationService implements Serializable {
         return role;
     }
 
-    
-    
     public String singin() {
 
         try {
@@ -94,6 +93,7 @@ public class AuthentificationService implements Serializable {
                     return "/login.xhtml";
                 } else {
                     this.setRole(authenticatedUser.getRoleUtilisateur());
+                    this.setLoggin(authenticatedUser.getLogin());
                     System.out.println(authenticatedUser.getClient());
                     this.client = authenticatedUser.getClient();
 
@@ -118,7 +118,7 @@ public class AuthentificationService implements Serializable {
     public Client getClient() {
         return client;
     }
-    
+
     public void setUt(UtilisateurModel ut) {
         this.ut = ut;
     }
@@ -130,8 +130,6 @@ public class AuthentificationService implements Serializable {
     public Utilisateur getAuthenticatedUser() {
         return authenticatedUser;
     }
-    
-    
 
     public void setRole(String role) {
         this.role = role;

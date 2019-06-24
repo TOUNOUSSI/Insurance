@@ -68,15 +68,15 @@ public class Contrat implements java.io.Serializable {
     Client num_client;
 
     @ManyToOne(targetEntity = Assureur.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "code_assr", updatable = false, nullable = false, insertable = false)
+    @JoinColumn(name = "code_assr", referencedColumnName = "code_assr", updatable = false, nullable = false, insertable = false)
     Assureur assureur;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_pack", updatable = false, nullable = false, insertable = false)
+    @JoinColumn(name = "id_pack", referencedColumnName = "id_pack", updatable = false, nullable = false, insertable = false)
     private Pack pack;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "immat_ou_moto", updatable = false, nullable = false, insertable = false,unique = false)
+    @JoinColumn(name = "immat_ou_moto", referencedColumnName = "immat_ou_moto", updatable = false, nullable = false, insertable = false,unique = false)
     private Vehicule vehicule;
 
     public Contrat() {
@@ -234,4 +234,6 @@ public class Contrat implements java.io.Serializable {
         this.ristourne = ristourne;
     }
 
+    
+    
 }

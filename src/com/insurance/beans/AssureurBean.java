@@ -47,6 +47,10 @@ public class AssureurBean  implements Serializable{
 		return "index2";
 	}
 	
-	
+	  public Boolean isEmpty() {
+        List<Assureur> al = findAll();
+        return al != null;
+    }
+
 	
 }

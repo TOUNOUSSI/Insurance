@@ -28,8 +28,8 @@ public class Attestation implements java.io.Serializable {
     private Integer idAtt;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "immat_ou_moto", referencedColumnName = "immat_ou_moto",nullable = true)
-    private Contrat immatOuMoto;
+    @JoinColumn(name = "immat_ou_moto", referencedColumnName = "ref_contrat",nullable = true)
+    private Contrat immatOuMoto = new Contrat();
 
     public Attestation() {
     }
@@ -61,5 +61,11 @@ public class Attestation implements java.io.Serializable {
         this.immatOuMoto = immatOuMoto;
     }
 
+    @Override
+    public String toString() {
+        return "Attestation{" + "idAtt=" + idAtt + ", immatOuMoto=" + immatOuMoto + '}';
+    }
+
+    
    
 }
