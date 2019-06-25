@@ -10,7 +10,6 @@ import java.io.Serializable;
 import java.util.*;
 
 @ManagedBean(name = "reglementBean")
-@SessionScoped
 public class ReglementBean implements Serializable {
 
     private ReglementModel ut = new ReglementModel();

@@ -1,25 +1,25 @@
 package com.insurance.beans;
 
 import com.insurance.entities.Sinistre;
-import com.insurance.hibernate.util.HibernateUtil;
 import com.insurance.models.ReglementModel;
 import com.insurance.models.ContratModel;
 import com.insurance.models.SinistreModel;
+import com.insurance.services.SessionBean;
 import javax.faces.bean.*;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 
 import java.util.*;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 @ManagedBean(name = "sinistreBean")
-@SessionScoped
 public class SinistreBean implements Serializable {
 
     private SinistreModel ut = new SinistreModel();
@@ -86,6 +86,12 @@ public class SinistreBean implements Serializable {
 
     public List<Sinistre> findAll() {
         try {
+             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            HttpSession session = SessionBean.getSession();
+            if(session != null){
+                            System.out.println("Username inside findAll : "+session.getAttribute("username"));
+
+            }
             return ut.findAll();
         } catch (Exception e) {
             System.out.println("Exception inside SinistreBean | findAll | causedBy:  " + e.getMessage());

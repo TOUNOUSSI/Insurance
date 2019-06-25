@@ -4,18 +4,22 @@ import com.insurance.entities.Attestation;
 import com.insurance.entities.Client;
 import com.insurance.models.AttestationModel;
 import com.insurance.services.AuthentificationService;
+import com.insurance.services.SessionBean;
 import javax.faces.bean.*;
 
 import java.io.Serializable;
 
 import java.util.*;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 @ManagedBean(name = "attestationBean")
-@SessionScoped
 public class AttestationBean implements Serializable {
 
     private AttestationModel ut = new AttestationModel();
@@ -47,23 +51,24 @@ public class AttestationBean implements Serializable {
     }
 
     public List<Attestation> findMyAttestations() {
-        Session session = null;
-         Client client = new Client();
+        List<Attestation> mes_attestations  = new ArrayList<>();
         try {
-
+            Session session = null;
             SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
             session = sessionFactory.openSession();
-            //Group By Clause Example
-            AuthentificationService auth = new AuthentificationService();
-            System.out.println("Connected Client : "+ auth.getLoggin());
-          //  String SQL_QUERY = "select * FROM Client where codeCli = ";
-            //Query query = session.createQuery(SQL_QUERY);
-            //query.uniqueResult();
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            HttpSession sessionBean = SessionBean.getSession();
+            System.out.println(sessionBean.getAttribute("username"));
+
+            String SQL_QUERY = "FROM Attestation attest join Contrat c join  Client  where c.codeCli = :codecli";
+            Query query = session.createQuery(SQL_QUERY);
+            query.setParameter("codecli", sessionBean.getAttribute("codeCli"));
+            mes_attestations = query.list();
         } catch (NumberFormatException | HibernateException e) {
             return new ArrayList<>();
         }
 
-        return null;
+        return mes_attestations;
     }
 
     public List<Attestation> findAll() {

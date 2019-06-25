@@ -177,9 +177,27 @@
                                         </ul>
                                     </li>
                                 </li>
+                                <li >
+                                    <li class="  has-sub">
+                                        <a class="js-arrow" href="#">
+                                            <i class="fas fa-chart-bar"></i>Gérer attestations
+                                            <span class="arrow">
+                                                <i class="fas fa-angle-down"></i>
+                                            </span>
+                                        </a>
+                                        <ul class="list-unstyled navbar__sub-list js-sub-list">
+                                            <li >
+                                                <a href="attestations.xhtml">   Liste des attestations</a>
+                                            </li>
+                                            <li class="">
+                                                <a href="ajoutattestation.xhtml"> Ajouter attestation</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </li>
                                 <li>
-                                    <a href="demandes-attestation.xhtml">
-                                        <i class="far fa-check-square"></i>Gérer demandes d'attestation</a>
+                                    <a href="mes-attestations.xhtml">
+                                        <i class="far fa-bookmark"></i>mes attestations</a>
                                 </li>
                                 <li>
                                     <a href="reglements.xhtml">
@@ -328,7 +346,7 @@
                                                     <img src="images/icon/avatar-01.jpg" alt="John Doe" />
                                                 </div>
                                                 <div class="content">
-                                                    <a class="js-acc-btn" href="#">john doe</a>
+                                                    <a class="js-acc-btn" href="#">#{AuthentificationService.authenticatedUser.login}</a>
                                                 </div>
                                                 <div class="account-dropdown js-dropdown">
                                                     <div class="info clearfix">
@@ -339,9 +357,9 @@
                                                         </div>
                                                         <div class="content">
                                                             <h5 class="name">
-                                                                <a href="#">john doe</a>
+                                                                <a href="#">#{AuthentificationService.authenticatedUser.login}</a>
                                                             </h5>
-                                                            <span class="email">johndoe@example.com</span>
+                                                            <span class="email">#{AuthentificationService.authenticatedUser.login}</span>
                                                         </div>
                                                     </div>
                                                     <div class="account-dropdown__body">

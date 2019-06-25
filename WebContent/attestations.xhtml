@@ -195,6 +195,10 @@
                                         </ul>
                                     </li>
                                 </li>
+                                <li>
+                                    <a href="mes-attestations.xhtml">
+                                        <i class="far fa-bookmark"></i>mes attestations</a>
+                                </li>
                                 <li >
                                     <li class="  has-sub">
                                         <a class="js-arrow" href="#">
@@ -356,7 +360,7 @@
                                                     <img src="images/icon/avatar-01.jpg" alt="John Doe" />
                                                 </div>
                                                 <div class="content">
-                                                    <a class="js-acc-btn" href="#">john doe</a>
+                                                    <a class="js-acc-btn" href="#">#{AuthentificationService.authenticatedUser.login}</a>
                                                 </div>
                                                 <div class="account-dropdown js-dropdown">
                                                     <div class="info clearfix">
@@ -367,9 +371,9 @@
                                                         </div>
                                                         <div class="content">
                                                             <h5 class="name">
-                                                                <a href="#">john doe</a>
+                                                                <a href="#">#{AuthentificationService.authenticatedUser.login}</a>
                                                             </h5>
-                                                            <span class="email">johndoe@example.com</span>
+                                                            <span class="email">#{AuthentificationService.authenticatedUser.login}</span>
                                                         </div>
                                                     </div>
                                                     <div class="account-dropdown__body">

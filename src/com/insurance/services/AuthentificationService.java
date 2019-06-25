@@ -10,25 +10,25 @@ import com.insurance.entities.Utilisateur;
 import com.insurance.hibernate.util.HibernateUtil;
 import com.insurance.models.UtilisateurModel;
 import java.io.Serializable;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.hibernate.HibernateException;
+import org.hibernate.service.spi.InjectService;
+import org.primefaces.push.annotation.Singleton;
 
 @ManagedBean(name = "AuthentificationService")
-@RequestScoped
-/**
- *
- * @author TOUNOUSSI
- */
 public class AuthentificationService implements Serializable {
 
     private UtilisateurModel ut = new UtilisateurModel();
-    private Utilisateur authenticatedUser = null;
+    private static Utilisateur authenticatedUser = new Utilisateur();
 
     private Client client = null;
 
@@ -41,16 +41,29 @@ public class AuthentificationService implements Serializable {
     @ManagedProperty(value = "#{param.loggin}")
     private String loggin;
 
+    @ManagedProperty(value = "#{param.role}")
+    private String role;
+
+    @ManagedProperty(value = "#{sessionScope.sessionBean}")
+    SessionBean sessionBean = new SessionBean();
+
     public String getLoggin() {
         return loggin;
     }
 
+    public SessionBean getSessionBean() {
+        return sessionBean;
+    }
+
+    public void setSessionBean(SessionBean sessionBean) {
+        this.sessionBean = sessionBean;
+    }
+    
+    
+
     public void setLoggin(String loggin) {
         this.loggin = loggin;
     }
-    @ManagedProperty(value = "#{param.role}")
-
-    private String role;
 
     public void setLogin(String login) {
         this.login = login;
@@ -60,10 +73,6 @@ public class AuthentificationService implements Serializable {
         this.password = password;
     }
 
-    HttpSession session;
-
-    String sql;
-
     public String getRole() {
         return role;
     }
@@ -72,8 +81,7 @@ public class AuthentificationService implements Serializable {
 
         try {
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            session = request.getSession();
-            HibernateUtil.getSessionFactory().openSession();
+            HttpSession session = SessionBean.getSession();
 
             if (session != null) {
                 login = request.getParameter("Lgn:login");
@@ -96,12 +104,10 @@ public class AuthentificationService implements Serializable {
                     this.setLoggin(authenticatedUser.getLogin());
                     System.out.println(authenticatedUser.getClient());
                     this.client = authenticatedUser.getClient();
-
                     session.setAttribute("username", authenticatedUser.getLogin());
+                    System.out.println("CODE HERE : "+authenticatedUser.getClient().getCodeCli());
+                    session.setAttribute("codeCli", authenticatedUser.getClient().getCodeCli());
                     session.setAttribute("role", authenticatedUser.getRoleUtilisateur());
-                    FacesMessage fm = new FacesMessage("Bienvenue", "INFO MSG");
-                    fm.setSeverity(FacesMessage.SEVERITY_INFO);
-                    FacesContext.getCurrentInstance().addMessage(null, fm);
                     return "/index2.xhtml";
                 }
 

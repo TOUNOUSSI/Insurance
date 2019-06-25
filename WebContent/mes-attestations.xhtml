@@ -356,20 +356,20 @@
                                                     <img src="images/icon/avatar-01.jpg" alt="John Doe" />
                                                 </div>
                                                 <div class="content">
-                                                    <a class="js-acc-btn" href="#">john doe</a>
+                                                    <a class="js-acc-btn" href="#">#{AuthentificationService.authenticatedUser.login}</a>
                                                 </div>
                                                 <div class="account-dropdown js-dropdown">
                                                     <div class="info clearfix">
                                                         <div class="image">
                                                             <a href="#">
-                                                                <img src="images/icon/avatar-01.jpg" alt="John Doe" />
+                                                                <img src="images/icon/avatar-01.jpg" alt="#{AuthentificationService.authenticatedUser.login}" />
                                                             </a>
                                                         </div>
                                                         <div class="content">
                                                             <h5 class="name">
-                                                                <a href="#">john doe</a>
+                                                                <a href="#">#{AuthentificationService.authenticatedUser.login}</a>
                                                             </h5>
-                                                            <span class="email">johndoe@example.com</span>
+                                                            <span class="email">#{AuthentificationService.authenticatedUser.login}</span>
                                                         </div>
                                                     </div>
                                                     <div class="account-dropdown__body">
@@ -387,8 +387,8 @@
                                                         </div>
                                                     </div>
                                                     <div class="account-dropdown__footer">
-                                                        <a href="#">
-                                                            <i class="zmdi zmdi-power"></i>Logout</a>
+                                                        <a href="login.xhtml">
+                                                            <i class="zmdi zmdi-power"></i>Déconnexion</a>
                                                     </div>
 
                                                 </div>
@@ -425,9 +425,7 @@
                                                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                          draggableRows="true" rowsPerPageTemplate="3,5,10" widgetVar="50"  >
 
-                                                <p:column class="dt-head-right" style="width:4%" headerText="ID">
-                                                    <h:outputText class="dt-body-right" style="font-size: 14px" value="${vr.idAtt}" />
-                                                </p:column>
+                                              
                                                 <p:column class="dt-head-right" headerText="Assureur" style="width:38%">
                                                     <h:outputText class="dt-body-right" style="font-size: 14px" value="${vr.immatOuMoto.assureur.mailAssr}" />
                                                 </p:column>
